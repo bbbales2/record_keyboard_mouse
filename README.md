@@ -1,0 +1,1 @@
+This is a simple evdev script to record keyboard and mouse events. I basically stole the structure from the evtest.py script in the evdev folder in https://github.com/gvalkov/python-evdev
