@@ -12,7 +12,7 @@ import evdev
 
 devices = {}
 keyboard_device = evdev.InputDevice('/dev/input/event3')
-mouse_device = evdev.InputDevice('/dev/input/event13')
+mouse_device = evdev.InputDevice('/dev/input/event12')
 devices[keyboard_device.fd] = (keyboard_device, 'keyboard')
 devices[mouse_device.fd] = (mouse_device, 'mouse')
 
