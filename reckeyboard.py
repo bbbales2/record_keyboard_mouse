@@ -12,23 +12,17 @@ import evdev
 
 devices = {}
 keyboard_device = evdev.InputDevice('/dev/input/event3')
-mouse_device = evdev.InputDevice('/dev/input/event12')
-devices[keyboard_device.fd] = keyboard_device
-devices[mouse_device.fd] = mouse_device
+mouse_device = evdev.InputDevice('/dev/input/event13')
+devices[keyboard_device.fd] = (keyboard_device, 'keyboard')
+devices[mouse_device.fd] = (mouse_device, 'mouse')
 
-def print_event(e):
-    #if e.type == ecodes.EV_SYN:
-    #    if e.code == ecodes.SYN_MT_REPORT:
-    #        print('time {:<16} +++++++++ {} ++++++++'.format(e.timestamp(), ecodes.SYN[e.code]))
-    #    else:
-    #        print('time {:<16} --------- {} --------'.format(e.timestamp(), ecodes.SYN[e.code]))
-    #else:
+def print_event(devicename, e):
     if e.type in evdev.ecodes.bytype:
         codename = evdev.ecodes.bytype[e.type][e.code]
     else:
         codename = '?'
 
-    print e.timestamp(), e.type, evdev.ecodes.EV[e.type], e.code, codename, e.value
+    print devicename, e.timestamp(), e.type, evdev.ecodes.EV[e.type], e.code, codename, e.value
 
 print('Listening for events ...\n')
 while True:
@@ -36,7 +30,8 @@ while True:
 
     for fd in r:
         #print devices[fd]
+        device, devicename = devices[fd]
 
-        for event in devices[fd].read():
+        for event in device.read():
         #for ev in keyboard_device.read():
-            print_event(event)
+            print_event(devicename, event)
